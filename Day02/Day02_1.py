@@ -8,14 +8,29 @@ def passwordIsValid(rule, password):
     False
     >>> passwordIsValid('2-9 c', 'ccccccccc')
     True
+    >>> passwordIsValid('11-14 b', 'bkbxxdkrbzbswb')
+    False
+    >>> passwordIsValid('6-12 r', 'fhrrrtrrrcwg')
+    True
     """
     import re
 
     ruleParts = rule.split(' ')
-    regexString = '[' + ruleParts[1] + ']{' + ruleParts[0].replace('-',',') + '}'
-    valid = re.search(regexString, password)
-    if valid:
-        return True
+    targetLetter = ruleParts[1]
+    range = ruleParts[0].split('-')
+    minRepeats = int(range[0])
+    maxRepeats = int(range[1])
+    letters = list(password)
+    counter = 0
+    for letter in letters:
+        if letter == targetLetter:
+            counter += 1
+
+    if counter >= minRepeats:
+        if counter <=maxRepeats:
+            return True
+        else:
+            return False
     else:
         return False
 
@@ -23,11 +38,11 @@ def passwordIsValid(rule, password):
 def getRulePasswordMapFromRow(row):
     """
     :param row: InputString
-    :return: map {"rule":rule, "password"}
+    :return: map {"rule":rule, "password":password}
 
-    >>> getRulePasswordMapFromRow('1-3 a : abcde')['password']
+    >>> getRulePasswordMapFromRow('1-3 a: abcde')['password']
     'abcde'
-    >>> getRulePasswordMapFromRow('1-3 a : abcde')['rule']
+    >>> getRulePasswordMapFromRow('1-3 a: abcde')['rule']
     '1-3 a'
     """
     splitRow = row.split(':')
@@ -61,3 +76,4 @@ if __name__ == "__main__":
     sample_data = file1.readlines()
     print("size of sample_data list: " + str(len(sample_data)))
     print("the answer is: " + str(iterateAndCheckList(sample_data)))
+
