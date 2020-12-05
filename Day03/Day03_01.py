@@ -1,26 +1,51 @@
-def getTestData():
-    file = open('testData', 'r')
-    return file.readlines()
 
-def run(data):
+def runSubtraction(data):
     """
     :param data: tree map,1 uniqueness wide
     :return: count of trees hit
-    >>> run(getTestData())
+    >>> runSubtraction(getTestData())
     7
     """
     countTrees = 0
     countX = 0
     for line in data:
         lineList = list(line)
-        lineLen = len(line) -1
-        while(countX > lineLen):
+        lineLen = len(lineList) - 1
+        # check to see if gone off side of map and move back one map width if so
+        if(countX >= lineLen):
             countX -= lineLen
         if(line[countX]) == "#":
             countTrees += 1
         countX += 3
 
     return countTrees
+
+
+def runDivision(data):
+    """
+    :param data: tree map,1 uniqueness wide
+    :return: count of trees hit
+    >>> runDivision(getTestData())
+    7
+    """
+    countTrees = 0
+    countX = 0
+    countY = 0
+    for line in data:
+        lineLen = len(line)
+        # ??????
+        # check to see if gone off side of map and move back one map width if so
+        if(countX > lineLen):
+            countX -= lineLen
+        if(line[countX]) == "#":
+            countTrees += 1
+        countX += 3
+
+    return countTrees
+
+def getTestData():
+    file = open('testData', 'r')
+    return file.readlines()
 
 if __name__ == "__main__":
     import doctest
