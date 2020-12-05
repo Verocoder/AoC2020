@@ -1,25 +1,26 @@
 
-def run(data):
+def run(data, offsetX, offsetY):
     """
     :param data: tree map,1 uniqueness wide
     :return: count of trees hit
-    >>> run(getTestData())
+    >>> run(getTestData(),3,1)
     7
     """
     countTrees = 0
     countX = 0
     countY = 0
-    for line in data:
+    while countY <= len(data):
+        line = data[countY]
         lineList = list(line.strip('\n'))
         lineLen = len(lineList)
         # check to see if gone off side of map and move back one map width if so
         if(countX >= lineLen):
             countX -= lineLen
-        # print(str(countX) + ',' + str(countY))
+        print(str(countX) + ',' + str(countY))
         if(line[countX]) == "#":
             countTrees += 1
-        countX += 3
-        countY +=1
+        countX += offsetX
+        countY += offsetY
 
     return countTrees
 
@@ -35,4 +36,4 @@ if __name__ == "__main__":
     file = open('sampleData', 'r')
     sample_data = file.readlines()
     print("size of sample_data list: " + str(len(sample_data)))
-    print("the answer is: " + str(run(sample_data)))
+    print("the answer is: " + str(run(sample_data, 3, 1)))
