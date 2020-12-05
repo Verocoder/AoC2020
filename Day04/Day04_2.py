@@ -1,4 +1,4 @@
-def isValid(passport):
+def isValid(passportString):
     """
     :param passport: string of a passport
     :return:boolean of whether valid
@@ -11,8 +11,61 @@ def isValid(passport):
     >>> isValid('hcl:#cfa07d eyr:2025 pid:166559648 iyr:2011 ecl:brn hgt:59in')
     False
     """
-    if passport['byr']:
-        if not 1920<=int(passport)<=2002:
+    import re
+    passport = makeMapFromString(passportString)
+    if 'byr' in passport.keys():
+        if not 1920 <= int(passport['byr']) <= 2002:
+            return False
+    else:
+        return False
+
+    if 'iyr' in passport.keys():
+        if not 2010<=int(passport['iyr'])<=2020:
+            return False
+    else:
+        return False
+
+    if 'eyr' in passport.keys():
+        if not 2020 <= int(passport['eyr']) <= 2030:
+            return False
+    else:
+        return False
+
+    if 'hgt' in passport.keys():
+        heightString = passport['hgt']
+        if "cm" in heightString:
+            height = int(heightString.strip('cm'))
+            if not 150 <= height <= 193:
+                return False
+        elif "in" in heightString:
+            height = int(heightString.strip('in'))
+            if not 59 <= height <= 76:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+    hairColourPattern = '#[0-9a-f]{6}'
+    hairColourRegex = re.compile(hairColourPattern)
+    if 'hcl' in passport.keys():
+        if not hairColourRegex.search(passport['hcl']):
+            return False
+    else:
+        return False
+
+    eyeColourPattern = 'amb|blu|brn|gry|grn|hzl|oth'
+    eyeColourRegex = re.compile(eyeColourPattern)
+    if 'ecl' in passport.keys():
+        if not eyeColourRegex.search(passport['ecl']):
+            return False
+    else:
+        return False
+
+    idPattern = '[0-9]{9}'
+    idRegex = re.compile(idPattern)
+    if 'pid' in passport.keys():
+        if not idRegex.search(passport['pid']):
             return False
     else:
         return False
