@@ -79,5 +79,4 @@ if __name__ == "__main__":
     file = open('sampleData', 'r')
     sample_data = file.readlines()
     print("size of sample_data list: " + str(len(sample_data)))
-    # TODO needs a dunction to take white space separated arbitrary multiline info and turn into an array of strings
     print("the answer is: " + str(run(sample_data)))
