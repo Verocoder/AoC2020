@@ -1,13 +1,13 @@
-def run(data):
+def runPart1(data):
     """
     :param data:
     :return:
-    >>> run([])
-    None
+    >>> runPart1(['BFFFBBFRRR', 'FFFBBBFRRR', 'BBFFBBFRLL'])
+    820
     """
     highestID = 0
     for seat in data:
-        thisID = calculateID(seat)
+        thisID = calculateID(seat.strip('\n'))
         if thisID > highestID:
             highestID = thisID
     return highestID
@@ -63,4 +63,4 @@ if __name__ == "__main__":
     file = open('sampleData', 'r')
     sample_data = file.readlines()
     print("size of sample_data list: " + str(len(sample_data)))
-    print("the answer is: " + str(run(sample_data)))
+    print("the answer is: " + str(runPart1(sample_data)))
