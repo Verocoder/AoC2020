@@ -16,22 +16,17 @@ def calculateID(seatTag):
     """
     :param seatTag:
     :return:
-    # >>> calculateID('BFFFBBFRRR')
-    # 567
-    # >>> calculateID('FFFBBBFRRR')
-    # 119
-    # >>> calculateID('BBFFBBFRLL')
-    # 820
+    >>> calculateID('BFFFBBFRRR')
+    567
+    >>> calculateID('FFFBBBFRRR')
+    119
+    >>> calculateID('BBFFBBFRLL')
+    820
     """
-    tagList = list(seatTag)
-    row = 127
-    iterator = 0
-    while iterator<7 :
-        if(tagList[0]=='F'):
-            row = row/2 +1
-        iterator +=1
-    seatPosition = 0
-
+    rowTag = seatTag[:7]
+    aisleTag= seatTag[7:]
+    row = findPos(127, 'F', rowTag)
+    seatPosition = findPos(7, 'L', aisleTag)
     id = row * 8 + seatPosition
     return id
 
@@ -43,6 +38,10 @@ def findPos(highest, firstHalfChar, CharList):
     :return:
     >>> findPos(127, 'F', 'BFFFBBF')
     70
+    >>> findPos(7, 'L', 'RLR')
+    5
+    >>> findPos(7, 'L', 'RRR')
+    7
     """
     max = highest
     lowest = 0
@@ -50,7 +49,7 @@ def findPos(highest, firstHalfChar, CharList):
         if(char == firstHalfChar):
             highest = (lowest + highest) // 2
         else:
-            lowest = (highest - lowest // 2) +1
+            lowest = (highest - lowest) // 2 + lowest + 1
 
     if(highest==lowest):
         return highest
